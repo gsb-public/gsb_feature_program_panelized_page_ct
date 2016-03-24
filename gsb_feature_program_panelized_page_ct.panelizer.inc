@@ -30,7 +30,7 @@ function gsb_feature_program_panelized_page_ct_panelizer_defaults() {
   $panelizer->link_to_entity = TRUE;
   $panelizer->extra = array();
   $display = new panels_display();
-  $display->layout = 'gsb-full-bleed-landing-page';
+  $display->layout = 'gsb-full-bleed-page';
   $display->layout_settings = array();
   $display->panel_settings = array();
   $display->cache = array();

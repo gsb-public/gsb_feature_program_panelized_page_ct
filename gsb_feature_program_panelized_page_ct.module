@@ -5,3 +5,22 @@
  */
 
 include_once 'gsb_feature_program_panelized_page_ct.features.inc';
+
+function gsb_feature_program_panelized_page_ct_page_alter(&$page) {
+  $found = false;
+  $path_alias = drupal_get_path_alias();
+  $ppp_paths = array('/curriculum', '/faculty', '/participant-profile');
+  foreach($ppp_paths as $path) {
+    if (stripos($path_alias, $path) !== false) {
+      $found = true;
+      break;
+    }
+  }
+  if ($found) {
+    $title = $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2];
+    $title = str_replace('--- curriculum', '', $title);
+    $title = str_replace('--- faculty', '', $title);
+    $title = str_replace('--- participant', '', $title);
+    $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2] = $title;
+  }
+}

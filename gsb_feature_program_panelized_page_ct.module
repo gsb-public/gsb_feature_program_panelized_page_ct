@@ -39,3 +39,45 @@ function gsb_feature_program_panelized_page_ct_page_alter(&$page) {
     }
   }
 }
+
+/**
+ * Implements hook_token_info().
+ */
+function gsb_feature_program_panelized_page_ct_token_info() {
+  $info['tokens']['node']['ppp-url-args'] = array(
+    'name' => t('Program Panelized Page Url Args'),
+    'description' => t('Program Panelized Page Url Args'),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function gsb_feature_program_panelized_page_ct_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+    $language = $node->language;
+    foreach ($tokens as $name => $original) {
+      if (stristr($name, 'ppp-url-args')) {
+        $alias = $data['node']->path['alias'];
+        $parsed_url = drupal_parse_url($alias);
+        $path = $parsed_url['path'];
+        $path = explode('/', $path);
+        $last_arg = $path[count($path)-1];
+        $last_arg = str_replace('-', ' ', $last_arg);
+        $last_arg = explode(' ', $last_arg);
+        $ppp_last_arg_title = '';
+        foreach($last_arg as $item) {
+          if (!empty($ppp_last_arg_title)) {
+            $ppp_last_arg_title .= ' ';
+          }
+          $ppp_last_arg_title .= ucfirst($item);
+        }
+        $replacements[$original] = $ppp_last_arg_title;
+      }
+    }
+  }
+  return $replacements;
+}

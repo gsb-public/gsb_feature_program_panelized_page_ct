@@ -10,43 +10,41 @@ function gsb_feature_program_panelized_page_ct_page_alter(&$page) {
   if ($page['#type'] == 'page') {
     $node = menu_get_object();
     if ($node && $node->type == 'program_panelized_page') {
-      $found = false;
       $alias = $node->path['alias'];
       $alias = explode('/', $alias);
       $ppp_page_type = $alias[count($alias)-1];
       if ($ppp_page_type == 'curriculum') {
         drupal_set_title('Curriculum');
-        $found = true;
+        $title = $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2];
+        $title = str_replace('--- curriculum', '', $title);
+        $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2] = $title;
       }
       else if ($ppp_page_type == 'faculty') {
         drupal_set_title('Faculty');
-        $found = true;
+        $title = $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2];
+        $title = str_replace('--- faculty', '', $title);
+        $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2] = $title;
+
       }
       else if ($ppp_page_type == 'participant-profile') {
         drupal_set_title('Participant Profile');
-        $found = true;
+        $title = $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2];
+        $title = str_replace('--- participant', '', $title);
+        $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2] = $title;
       }
       else {
-        $pos = strrpos($node->title, ' --- ');
-        if ($pos !== false) {
-          $title = substr($node->title, $pos + strlen(' --- '));
-          drupal_set_title($title);
-          $found = true;
-        }
-        else {
-          drupal_set_title($node->title);
-        }
-      }
-      if ($found) {
+        // fifth page
+        drupal_set_title($node->title);
         $title = $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2];
-        $title = str_replace('--- curriculum', '', $title);
-        $title = str_replace('--- faculty', '', $title);
-        $title = str_replace('--- participant', '', $title);
-        $pos = strrpos($title, ' --- ');
-        if ($pos !== false) {
-          $title_parts = explode('|', $title);
-          $title = substr($title_parts[0], 0, $pos) . ' | '. trim($title_parts[1]);
+        $title = str_replace($node->title, '', $title);
+        $title_parts = explode('|', $title);
+        $program_name = '';
+        if (!empty($node->field_program[$node->language][0]['target_id'])) {
+          $program_nid = $node->field_program[$node->language][0]['target_id'];
+          $program_node = node_load($program_nid);
+          $program_name = $program_node->title;
         }
+        $title = trim($title_parts[0]) . ' ' . $program_name . ' | ' . trim($title_parts[1]);
         $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2] = $title;
       }
     }

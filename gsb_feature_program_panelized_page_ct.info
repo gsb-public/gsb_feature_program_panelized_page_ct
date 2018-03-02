@@ -31,3 +31,4 @@ features[variable][] = panelizer_node:program_panelized_page_default
 features[variable][] = pathauto_node_program_panelized_page_pattern
 features[variable][] = workbench_access_node_type_program_panelized_page
 features[variable][] = workbench_moderation_default_state_program_panelized_page
+features[variable][] = xmlsitemap_settings_node_program_panelized_page

@@ -7,7 +7,8 @@
 include_once 'gsb_feature_program_panelized_page_ct.features.inc';
 
 function gsb_feature_program_panelized_page_ct_page_alter(&$page) {
-  if ($page['#type'] == 'page' && !isset($page['content']['system_main']['#node_edit_form'])) {
+  if ($page['#type'] == 'page'
+    && isset($page['content']['metatags']['node:program_panelized_page'])) {
     $node = menu_get_object();
     if ($node && $node->type == 'program_panelized_page') {
       $alias = $node->path['alias'];

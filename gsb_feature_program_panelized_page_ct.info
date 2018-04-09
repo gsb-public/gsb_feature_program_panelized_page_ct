@@ -26,6 +26,7 @@ features[variable][] = node_submitted_program_panelized_page
 features[variable][] = panelizer_defaults_node_program_panelized_page
 features[variable][] = panelizer_node:program_panelized_page_allowed_layouts
 features[variable][] = panelizer_node:program_panelized_page_allowed_layouts_default
+features[variable][] = panelizer_node:program_panelized_page_allowed_types
 features[variable][] = panelizer_node:program_panelized_page_allowed_types_default
 features[variable][] = panelizer_node:program_panelized_page_default
 features[variable][] = pathauto_node_program_panelized_page_pattern

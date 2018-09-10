@@ -43,7 +43,9 @@ function gsb_feature_program_panelized_page_ct_page_alter(&$page) {
         if (!empty($node->field_program[$node->language][0]['target_id'])) {
           $program_nid = $node->field_program[$node->language][0]['target_id'];
           $program_node = node_load($program_nid);
-          $program_name = $program_node->title;
+          if ($program_node) {
+            $program_name = $program_node->title;
+          }
         }
         $title = trim($title_parts[0]) . ' ' . $program_name . ' | ' . trim($title_parts[1]);
         $page['content']['metatags']['node:program_panelized_page']['title']['#attached']['metatag_set_preprocess_variable'][0][2] = $title;
